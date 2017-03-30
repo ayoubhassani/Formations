@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Paint</title>
+    <link rel="stylesheet" href="canvas.css">
+    <script src="canvas.js"></script>
+</head>
+<body>
+    <h1>Paint pour les Neuneux</h1>
+    <div id="control">
+        <form action="#">
+            <input type="color" id="bg_color" class="my_btn" value="#ffffff">
+            <input type="color" id="color" class="my_btn">
+            <input type="number" id="size" value="20" class="my_btn">
+            <select name="tools" id="tool" class="my_btn">
+                <option value="roud">Rond</option>
+                <option value="square">Carré</option>
+            </select>
+            <input type="button" id="clear" value="Gomme" class="my_btn">
+            <input type="button" id="restart" value="Effacer" class="my_btn">
+        </form>   <progress id='P' value="60" min = '0' max="100"> </progress>
+		<output for='P'>60 %</output>
+    </div>
+
+    <canvas id="canvas" width="800px" height="400px">Votre navigateur ne prend pas en charge le dessin. Veuillez mettre à jour votre navigateur.</canvas>
+
+    <footer>
+        <p>
+            <a href="http://www.gasquez.fr">&copy; Gasquez.fr</a>
+        </p>
+    </footer>
+    <!--Image de nuages pour la déco-->
+    <img id="cloud1" src="img/cloud.png" alt="Petit Nuage">
+    <img id="cloud2" src="img/cloud.png" alt="Petit Nuage">
+</body>
+</html>

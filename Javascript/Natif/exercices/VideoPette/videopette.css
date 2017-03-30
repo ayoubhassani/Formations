@@ -1,0 +1,29 @@
+body{
+    min-width: 350px;
+    max-width: 800px;
+    margin:0 auto;
+    font-family: 'Helvetica Neue', sans-serif;
+    padding:0 20px;
+    background-color: #000000;
+}
+body h1{
+    text-align: center;
+    color: #007e8b;
+}
+body ul{
+    display: none;
+}
+body button{
+    width:100%;
+    font-size: 1.5em;
+    background-color: #007e8b;
+    color: #ffffff;
+    border:2 px solid #00a1b2;
+    border-right-color: #005a63;
+    border-left-color: #005a63;
+    border-radius: 5px;
+}
+iframe{
+    width: 100%;
+    height: calc(100vh - 200px);
+}

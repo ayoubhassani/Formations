@@ -1,0 +1,26 @@
+body{
+    max-width: 800px;
+    min-width:300px;
+    margin:auto;
+    min-height: 100vh;
+    background-color: rgba(58, 1, 49, 0.27);
+}
+header{
+    height:150px;
+}
+h1{
+    text-align: center;
+    color: #a9006a;
+}
+select{
+    width: 100%;
+    font-size: 1.5em;
+    margin:10px 0;
+    border:1px solid #a9006a;
+    border-radius: 0;
+}
+iframe {
+    width:100%;
+    height: calc(100vh - 200px);
+    min-height: 200px;
+}

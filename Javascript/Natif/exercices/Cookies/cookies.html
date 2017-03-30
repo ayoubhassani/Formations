@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Les Cookies</title>
+
+    <link rel="stylesheet" href="cookies.css">
+
+    <script src="cookies.js"></script>
+
+</head>
+<body>
+<h1>Cookies</h1>
+
+<section id="Creation">
+    <h2>Création de cookies :</h2>
+    <form action="#">
+        <label for="nameCookie">Nom du cookie :</label>
+        <input type="text" id="nameCookie" name="nameCookie" placeholder="nom du cookie">
+        <label for="valueCookie">Valeur du cookie :</label>
+        <input type="text" id="valueCookie" name="valueCookie" placeholder="valeur du cookie">
+        <label for="dateExpire">Jour avant expiration :</label>
+        <input type="number" id="dateExpire" name="dateExpire" placeholder="jours avant expiration">
+
+        <button type="button" id="createCookie" value="Créer le cookie">Créer le cookie</button>
+    </form>
+</section>
+<section id="Voir">
+    <h2>Liste des cookies :</h2>
+    <article id="maListe">
+
+    </article>
+
+</section>
+</body>
+</html>

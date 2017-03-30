@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ma bibliothèque - TEST</title>
+
+    <script src="Crispi.js"></script>
+    <script src="Classes/FormBuild.js"></script>
+
+    <script>
+        window.addEventListener('load', function () {
+
+            var testForm2 = new Crispi.CreateForm('get', '#');
+            testForm2.inputText('id', 'name', 'label');
+            testForm2.inputText('id1', 'mon_formulaire_input', 'Entrez votre nom :', 'Ex : Dupont', 10);
+            testForm2.inputEmail('idMail', 'MonMail', 'Entrez Email :', 'Ex : email@domain.net', 50);
+            testForm2.inputPassword('idPassword', 'MonPassword', 'Entrez Password :', 'Entrez votre mot de passe', 10);
+            testForm2.inputTel('idTel', 'MonTel', 'Entrez Numéro de Téléphone :', 'Ex : 01 02 03 04 05', 20);
+            testForm2.inputColor('idColor', 'MaCouleur', 'Entrez un couleur :', '#ffffff');
+            testForm2.inputTime('idTime', 'MonHeure', 'Entrez une Heure :', '12:30');
+            testForm2.inputNumber('idNumber', 'MonNumber', 'Entrez un Nombre :', 7, '0', 10);
+            testForm2.inputRange('idRange', 'MonRange', 'Faites bouger le curseur :', 7, '0', 10, 1);
+            testForm2.inputTextarea('idTextarea', 'MonTextarea', 'Entrez votre prose', 'Il était une fois…', '5', '20');
+            testForm2.inputRadios('idRadio', 'MyRadios', 'Faites votre choix :', [{
+                'value': 'radio1',
+                'text': '1er Radio'
+            },{
+                'value': 'radio2',
+                'text': 'Radio 2',
+                'checked': true
+            }]);
+            testForm2.inputSelect('idSelecto', 'MySelect', 'Faites votre choix :', [{
+                'value': 'radio1',
+                'text': '1er Radio'
+            },{
+                'value': 'radio2',
+                'text': 'Radio 2'
+            }]);
+
+
+            testForm2.labelUpInput();
+
+            testForm2.publishForm('idDiv');
+        });
+
+
+    </script>
+
+</head>
+<body>
+<h1>Test My Library</h1>
+<div id="idDiv">
+    <p>Pas Touch!</p>
+
+
+</div>
+
+</body>
+</html>

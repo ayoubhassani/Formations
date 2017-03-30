@@ -1,0 +1,30 @@
+body{
+    min-width: 350px;
+    max-width: 800px;
+    margin:auto;
+    padding:20px;
+    font-family: "Helvetica Neue", sans-serif;
+    color: #a0a0a0;
+}
+h1{
+    text-align: right;
+    margin-top:0;
+    text-transform: uppercase;
+}
+
+input{
+    width: 100%;
+    margin-bottom:20px;
+    margin-top:5px;
+    border-radius: 0;
+
+    height: 20px;
+
+}
+button{
+    height: 20px;
+    width:100%;
+}
+ul li button{
+    width: 200px;
+}

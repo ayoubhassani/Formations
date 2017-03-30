@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='CreateForm-method-constructor'><span id='CreateForm'>/**
+</span></span> *  #Classe CreateForm :
+ *  Classe permettant d&#39;instancier un nouveau formulaire et ensemble de méthodes pour modifier, surcharger et publier celui-ci.
+ *
+ * Gasquez Christoph &lt;christophe@gasquez.fr&gt;
+ *
+ * @class CreateForm
+ * @constructor Création d&#39;un Element de type form.
+ *
+ * ##Utilisation :
+ * Création d&#39;un formulaire à l&#39;aide de la classe CreateForm, de CrispiLib.js
+ *
+ *      var f = new Crispi.CreateForm();
+ *
+ * ##Fonction :
+ *
+ *      Crispi.CreateForm = function () {
+ *          this.form = document.createElement(&#39;form&#39;);
+ *      };
+ *
+ */
+Crispi.CreateForm = function (methode, action) {
+    this.form = document.createElement(&#39;form&#39;);
+    this.form.setAttribute(&#39;method&#39;, methode);
+    this.form.setAttribute(&#39;action&#39;, action);
+
+};
+
+
+<span id='CreateForm-method-publishForm'>/**
+</span> * @method publishForm Placer le formulaire dans le tag ou l&#39;Id est le paramètre envoyé:
+ * @param {String} idTag Id de l&#39;élément dans le quel placer le formulaire.
+ *
+ * ##Utilisation :
+ *
+ *      var f = new Crispi.CreateForm();
+ *      f.publishForm(&#39;idTag&#39;);
+ *
+ * ##Fonction :
+ *      Crispi.CreateForm.prototype.publishForm = function (idTag) {
+ *          tag = document.getElementById(idTag);
+ *          tag.appendChild(this.form);
+ *      };
+ */
+Crispi.CreateForm.prototype.publishForm = function (idTag) {
+    var tag = document.getElementById(idTag);
+
+    //Pour Test
+    var button = document.createElement(&#39;button&#39;);
+    button.innerHTML = &#39;button for test&#39;;
+    this.form.appendChild(button);
+    //Fin pour test
+
+    tag.appendChild(this.form);
+};
+
+
+<span id='CreateForm-method-inputText'>/**
+</span> * @method inputText Ajouter un Input de type text à l&#39;objet CreatForm.
+ * @param {String} id ID à ajouter à l&#39;élément créé.
+ * @param {String} name Nom à ajouter aux élément créé (à l&#39;attribut name de l&#39;input et, si label, au for de l&#39;élément label).
+ * @param {String} label Ignoré si false. Si label, ajout de l&#39;élément label avec inner.html du paramètre envoyé.
+ * @param {String} placeholder Ignoré si false. Si placeholder, ajout de l&#39;attribut placeholder à l&#39;élément input créé avac la valeur de la chaine de carractère envoyé en paramètre.
+ * @param {Number} maxlength Ingnoré si false ou not Integer. Si maxlength, ajout de l&#39;attribut à l&#39;élément créé avec la valeur de l&#39;integer envoyé en paramètre.
+ *
+ * ##Utilisation :
+ *      var f = new Crispi.CreateForm(method, action);
+ *      f.inputText(&#39;id&#39;, &#39;name&#39;, &#39;label&#39;, &#39;palceholder&#39;, Int);
+ *      f.publishForm(&#39;idTag);
+ *
+ * ##Fonction :
+ *
+ *      Crispi.CreateForm.prototype.inputText =function (id, name, label, placeholder, maxlength) {
+ *          var group = document.createElement(&#39;div&#39;);
+ *          group.id = &#39;form_group_&#39;+id;
+ *          group.className = &#39;c_from_group&#39;;
+ *          if (label){
+ *              var lab = document.createElement(&#39;label&#39;);
+ *              lab.id = &#39;label_&#39;+id;
+ *              lab.htmlFor = id;
+ *              lab.innerHTML = label;
+ *              group.appendChild(lab);
+ *          }
+ *          var input = document.createElement(&#39;input&#39;);
+ *          input.type = &#39;text&#39;;
+ *          input.id = id;
+ *          input.name = name;
+ *          if (placeholder){
+ *              input.placeholder = placeholder;
+ *          }
+ *          if (maxlength &amp;&amp; Number.isInteger(maxlength)){
+ *              input.maxLength = maxlength;
+ *          }
+ *          group.appendChild(input);
+ *          this.form.appendChild(group);
+ *          };
+ *
+ */
+Crispi.CreateForm.prototype.inputText = function (id, name, label, placeholder, maxlength) {
+    var group = window.document.createElement(&#39;div&#39;);
+    group.id = &#39;form_group_&#39;+id;
+    group.className = &#39;c_from_group&#39;;
+
+    if (label){
+    var lab = document.createElement(&#39;label&#39;);
+        lab.id = &#39;label_&#39;+id;
+        lab.htmlFor = id;
+        lab.innerHTML = label;
+        group.appendChild(lab);
+    }
+    var input = document.createElement(&#39;input&#39;);
+    input.type = &#39;text&#39;;
+    input.id = id;
+    input.name = name;
+    if (placeholder){
+        input.placeholder = placeholder;
+    }
+    if (maxlength &amp;&amp; Number.isInteger(maxlength)){
+        input.maxLength = maxlength;
+    }
+    group.appendChild(input);
+    this.form.appendChild(group);
+};
+
+
+<span id='CreateForm-method-inputEmail'>/**
+</span> * @method inputEmail Ajouter un Input de type email à l&#39;objet CreatForm.
+ * @param {String} id ID à ajouter à l&#39;élément créé.
+ * @param {String} name Nom à ajouter aux élément créé (à l&#39;attribut name de l&#39;input et, si label, au for de l&#39;élément label).
+ * @param {string} label Ignoré si false. Si label, ajout de l&#39;élément label avec inner.html du paramètre envoyé.
+ * @param {String} placeholder Ignoré si false. Si placeholder, ajout de l&#39;attribut placeholder à l&#39;élément input créé avac la valeur de la chaine de carractère envoyé en paramètre.
+ * @param {Number} maxlength Ingnoré si false ou not Integer. Si maxlength, ajout de l&#39;attribut à l&#39;élément créé avec la valeur de l&#39;integer envoyé en paramètre.
+ *
+ * ##Utilisation :
+ *      var f = new Crispi.CreateForm(method, action);
+ *      f.inputEmail(&#39;id&#39;, &#39;name&#39;, &#39;label&#39;, &#39;palceholder&#39;, Int);
+ *      f.publishForm(&#39;idTag);
+ *
+ * ##Fonction :
+ *
+ *      Crispi.CreateForm.prototype.inputEmail =function (id, name, label, placeholder, maxlength) {
+ *          var group = document.createElement(&#39;div&#39;);
+ *          group.id = &#39;form_group_&#39;+id;
+ *          group.className = &#39;c_from_group&#39;;
+ *          if (label){
+ *              var lab = document.createElement(&#39;label&#39;);
+ *              lab.id = &#39;label_&#39;+id;
+ *              lab.htmlFor = id;
+ *              lab.innerHTML = label;
+ *              group.appendChild(lab);
+ *          }
+ *          var input = document.createElement(&#39;input&#39;);
+ *          input.type = &#39;email&#39;;
+ *          input.id = id;
+ *          input.name = name;
+ *          if (placeholder){
+ *              input.placeholder = placeholder;
+ *          }
+ *          if (maxlength &amp;&amp; Number.isInteger(maxlength)){
+ *              input.maxLength = maxlength;
+ *          }
+ *          group.appendChild(input);
+ *          this.form.appendChild(group);
+ *          };
+ *
+ */
+Crispi.CreateForm.prototype.inputEmail = function (id, name, label, placeholder, maxlength) {
+    var group = window.document.createElement(&#39;div&#39;);
+    group.id = &#39;form_group_&#39;+id;
+    group.className = &#39;c_from_group&#39;;
+
+    if (label){
+        var lab = document.createElement(&#39;label&#39;);
+        lab.id = &#39;label_&#39;+id;
+        lab.htmlFor = id;
+        lab.innerHTML = label;
+        group.appendChild(lab);
+    }
+    var input = document.createElement(&#39;input&#39;);
+    input.type = &#39;email&#39;;
+    input.id = id;
+    input.name = name;
+    if (placeholder){
+        input.placeholder = placeholder;
+    }
+    if (maxlength &amp;&amp; Number.isInteger(maxlength)){
+        input.maxLength = maxlength;
+    }
+    group.appendChild(input);
+    this.form.appendChild(group);
+};
+
+
+<span id='CreateForm-method-inputPassword'>/**
+</span> * @method inputPassword Ajouter un Input de type passwond à l&#39;objet CreatForm.
+ * @param {String} id ID à ajouter à l&#39;élément créé.
+ * @param {String} name Nom à ajouter aux élément créé (à l&#39;attribut name de l&#39;input et, si label, au for de l&#39;élément label).
+ * @param {String} label Ignoré si false. Si label, ajout de l&#39;élément label avec inner.html du paramètre envoyé.
+ * @param {String} placeholder Ignoré si false. Si placeholder, ajout de l&#39;attribut placeholder à l&#39;élément input créé avac la valeur de la chaine de carractère envoyé en paramètre.
+ * @param {Number} maxlength Ingnoré si false ou not Integer. Si maxlength, ajout de l&#39;attribut à l&#39;élément créé avec la valeur de l&#39;integer envoyé en paramètre.
+ *
+ * ##Utilisation :
+ *      var f = new Crispi.CreateForm(method, action);
+ *      f.inputPassword(&#39;id&#39;, &#39;name&#39;, &#39;label&#39;, &#39;palceholder&#39;, Int);
+ *      f.publishForm(&#39;idTag);
+ *
+ * ##Fonction :
+ *
+ *      Crispi.CreateForm.prototype.inputPassword =function (id, name, label, placeholder, maxlength) {
+ *          var group = document.createElement(&#39;div&#39;);
+ *          group.id = &#39;form_group_&#39;+id;
+ *          group.className = &#39;c_from_group&#39;;
+ *          if (label){
+ *              var lab = document.createElement(&#39;label&#39;);
+ *              lab.id = &#39;label_&#39;+id;
+ *              lab.htmlFor = id;
+ *              lab.innerHTML = label;
+ *              group.appendChild(lab);
+ *          }
+ *          var input = document.createElement(&#39;input&#39;);
+ *          input.type = &#39;password&#39;;
+ *          input.id = id;
+ *          input.name = name;
+ *          if (placeholder){
+ *              input.placeholder = placeholder;
+ *          }
+ *          if (maxlength &amp;&amp; Number.isInteger(maxlength)){
+ *              input.maxLength = maxlength;
+ *          }
+ *          group.appendChild(input);
+ *          this.form.appendChild(group);
+ *          };
+ *
+ */
+Crispi.CreateForm.prototype.inputPassword = function (id, name, label, placeholder, maxlength) {
+    var group = window.document.createElement(&#39;div&#39;);
+    group.id = &#39;form_group_&#39;+id;
+    group.className = &#39;c_from_group&#39;;
+
+    if (label){
+        var lab = document.createElement(&#39;label&#39;);
+        lab.id = &#39;label_&#39;+id;
+        lab.htmlFor = id;
+        lab.innerHTML = label;
+        group.appendChild(lab);
+    }
+    var input = document.createElement(&#39;input&#39;);
+    input.type = &#39;password&#39;;
+    input.id = id;
+    input.name = name;
+    if (placeholder){
+        input.placeholder = placeholder;
+    }
+    if (maxlength &amp;&amp; Number.isInteger(maxlength)){
+        input.maxLength = maxlength;
+    }
+    group.appendChild(input);
+    this.form.appendChild(group);
+};
+
+
+<span id='CreateForm-method-inputTel'>/**
+</span> * @method inputTel Ajouter un Input de type tel à l&#39;objet CreatForm.
+ * @param {String} id ID à ajouter à l&#39;élément créé.
+ * @param {String} name Nom à ajouter aux élément créé (à l&#39;attribut name de l&#39;input et, si label, au for de l&#39;élément label).
+ * @param {String} label Ignoré si false. Si label, ajout de l&#39;élément label avec inner.html du paramètre envoyé.
+ * @param {String} placeholder Ignoré si false. Si placeholder, ajout de l&#39;attribut placeholder à l&#39;élément input créé avac la valeur de la chaine de carractère envoyé en paramètre.
+ * @param {Number} maxlength Ingnoré si false ou not Integer. Si maxlength, ajout de l&#39;attribut à l&#39;élément créé avec la valeur de l&#39;integer envoyé en paramètre.
+ *
+ * ##Utilisation :
+ *      var f = new Crispi.CreateForm(method, action);
+ *      f.inputTel(&#39;id&#39;, &#39;name&#39;, &#39;label&#39;, &#39;palceholder&#39;, Int);
+ *      f.publishForm(&#39;idTag);
+ *
+ * ##Fonction :
+ *
+ *      Crispi.CreateForm.prototype.inputTel =function (id, name, label, placeholder, maxlength) {
+ *          var group = document.createElement(&#39;div&#39;);
+ *          group.id = &#39;form_group_&#39;+id;
+ *          group.className = &#39;c_from_group&#39;;
+ *          if (label){
+ *              var lab = document.createElement(&#39;label&#39;);
+ *              lab.id = &#39;label_&#39;+id;
+ *              lab.htmlFor = id;
+ *              lab.innerHTML = label;
+ *              group.appendChild(lab);
+ *          }
+ *          var input = document.createElement(&#39;input&#39;);
+ *          input.type = &#39;tel&#39;;
+ *          input.id = id;
+ *          input.name = name;
+ *          if (placeholder){
+ *              input.placeholder = placeholder;
+ *          }
+ *          if (maxlength &amp;&amp; Number.isInteger(maxlength)){
+ *              input.maxLength = maxlength;
+ *          }
+ *          group.appendChild(input);
+ *          this.form.appendChild(group);
+ *          };
+ *
+ */
+Crispi.CreateForm.prototype.inputTel = function (id, name, label, placeholder, maxlength) {
+    var group = window.document.createElement(&#39;div&#39;);
+    group.id = &#39;form_group_&#39;+id;
+    group.className = &#39;c_from_group&#39;;
+
+    if (label){
+        var lab = document.createElement(&#39;label&#39;);
+        lab.id = &#39;label_&#39;+id;
+        lab.htmlFor = id;
+        lab.innerHTML = label;
+        group.appendChild(lab);
+    }
+    var input = document.createElement(&#39;input&#39;);
+    input.type = &#39;tel&#39;;
+    input.id = id;
+    input.name = name;
+    if (placeholder){
+        input.placeholder = placeholder;
+    }
+    if (maxlength &amp;&amp; Number.isInteger(maxlength)){
+        input.maxLength = maxlength;
+    }
+    group.appendChild(input);
+    this.form.appendChild(group);
+};
+
+
+<span id='CreateForm-method-inputColor'>/**
+</span> * @method inputColor Ajouter un Input de type couleur à l&#39;objet CreatForm.
+ * @param {String} id ID à ajouter à l&#39;élément créé.
+ * @param {String} name Nom à ajouter aux élément créé (à l&#39;attribut name de l&#39;input et, si label, au for de l&#39;élément label).
+ * @param {String} label Ignoré si false. Si label, ajout de l&#39;élément label avec inner.html du paramètre envoyé.
+ * @param {String} value Ignoré si false. Si value, ajout de l&#39;attribut value à l&#39;élément input créé avac la valeur de la chaine de carractère envoyé en paramètre, ex : #FFFFFF pour le blanc.
+ *
+ * ##Utilisation :
+ *      var f = new Crispi.CreateForm(method, action);
+ *      f.inputColor(&#39;id&#39;, &#39;name&#39;, &#39;label&#39;, &#39;value&#39;);
+ *      f.publishForm(&#39;idTag);
+ *
+ * ##Fonction :
+ *
+ *      Crispi.CreateForm.prototype.inputColor =function (id, name, label, value) {
+ *          var group = document.createElement(&#39;div&#39;);
+ *          group.id = &#39;form_group_&#39;+id;
+ *          group.className = &#39;c_from_group&#39;;
+ *          if (label){
+ *              var lab = document.createElement(&#39;label&#39;);
+ *              lab.id = &#39;label_&#39;+id;
+ *              lab.htmlFor = id;
+ *              lab.innerHTML = label;
+ *              group.appendChild(lab);
+ *          }
+ *          var input = document.createElement(&#39;input&#39;);
+ *          input.type = &#39;tel&#39;;
+ *          input.id = id;
+ *          input.name = name;
+ *          if (value){
+ *              input.value = value;
+ *          }
+ *
+ *          group.appendChild(input);
+ *          this.form.appendChild(group);
+ *          };
+ *
+ */
+Crispi.CreateForm.prototype.inputColor = function (id, name, label, value) {
+    var group = window.document.createElement(&#39;div&#39;);
+    group.id = &#39;form_group_&#39;+id;
+    group.className = &#39;c_from_group&#39;;
+
+    if (label){
+        var lab = document.createElement(&#39;label&#39;);
+        lab.id = &#39;label_&#39;+id;
+        lab.htmlFor = id;
+        lab.innerHTML = label;
+        group.appendChild(lab);
+    }
+    var input = document.createElement(&#39;input&#39;);
+    input.type = &#39;color&#39;;
+    input.id = id;
+    input.name = name;
+    if (value){
+        input.value = value;
+    }
+
+    group.appendChild(input);
+    this.form.appendChild(group);
+};
+
+
+<span id='CreateForm-method-inputTime'>/**
+</span> * @method inputTime Ajouter un Input de type time à l&#39;objet CreatForm.
+ * @param {String} id ID à ajouter à l&#39;élément créé.
+ * @param {String} name Nom à ajouter aux élément créé (à l&#39;attribut name de l&#39;input et, si label, au for de l&#39;élément label).
+ * @param {String} label Ignoré si false. Si label, ajout de l&#39;élément label avec inner.html du paramètre envoyé.
+ * @param {String} value Ignoré si false. Si value, ajout de l&#39;attribut value à l&#39;élément input créé avac la valeur de la chaine de carractère envoyé en paramètre, ex : &#39;12:30:05&#39;.
+ *
+ * ##Utilisation :
+ *      var f = new Crispi.CreateForm(method, action);
+ *      f.inputTime(&#39;id&#39;, &#39;name&#39;, &#39;label&#39;, &#39;value&#39;);
+ *      f.publishForm(&#39;idTag);
+ *
+ * ##Fonction :
+ *
+ *      Crispi.CreateForm.prototype.inputTime =function (id, name, label, value) {
+ *          var group = document.createElement(&#39;div&#39;);
+ *          group.id = &#39;form_group_&#39;+id;
+ *          group.className = &#39;c_from_group&#39;;
+ *          if (label){
+ *              var lab = document.createElement(&#39;label&#39;);
+ *              lab.id = &#39;label_&#39;+id;
+ *              lab.htmlFor = id;
+ *              lab.innerHTML = label;
+ *              group.appendChild(lab);
+ *          }
+ *          var input = document.createElement(&#39;input&#39;);
+ *          input.type = &#39;time&#39;;
+ *          input.id = id;
+ *          input.name = name;
+ *          if (value){
+ *              input.value = value;
+ *          }
+ *
+ *          group.appendChild(input);
+ *          this.form.appendChild(group);
+ *          };
+ *
+ */
+Crispi.CreateForm.prototype.inputTime = function (id, name, label, value) {
+    var group = window.document.createElement(&#39;div&#39;);
+    group.id = &#39;form_group_&#39;+id;
+    group.className = &#39;c_from_group&#39;;
+
+    if (label){
+        var lab = document.createElement(&#39;label&#39;);
+        lab.id = &#39;label_&#39;+id;
+        lab.htmlFor = id;
+        lab.innerHTML = label;
+        group.appendChild(lab);
+    }
+    var input = document.createElement(&#39;input&#39;);
+    input.type = &#39;time&#39;;
+    input.id = id;
+    input.name = name;
+    if (value){
+        input.value = value;
+    }
+
+    group.appendChild(input);
+    this.form.appendChild(group);
+};
+
+
+<span id='CreateForm-method-inputNumber'>/**
+</span> * @method inputNumber Ajouter un Input de type number à l&#39;objet CreatForm.
+ * @param {String} id ID à ajouter à l&#39;élément créé.
+ * @param {String} name Nom à ajouter aux élément créé (à l&#39;attribut name de l&#39;input et, si label, au for de l&#39;élément label).
+ * @param {String} label Ignoré si false. Si label, ajout de l&#39;élément label avec inner.html du paramètre envoyé.
+ * @param {Number/String} value Ignoré si false. Si value, ajout de l&#39;attribut value à l&#39;élément input créé avac la valeur de la chaine de carractère envoyé en paramètre, ex : &#39;12:30:05&#39;.
+ * @param {Number/String} min Ignoré si false. Si min, ajout de l&#39;attribut min à l&#39;élément input créé avac la valeur de l&#39;integer envoyé en paramètre, ex : &#39;0&#39;.
+ * @param {Number/String} max Ignoré si false. Si max, ajout de l&#39;attribut max à l&#39;élément input créé avac la valeur de l&#39;integer envoyé en paramètre, ex : &#39;100&#39;.
+ *
+ * ATTENTION : Si Min, Max ou Value sont égale à 0, alors, envoyer le carractère 0 (ex : &#39;0&#39;):
+ *
+ * ##Utilisation :
+ *      var f = new Crispi.CreateForm(method, action);
+ *      f.inputNumber(&#39;id&#39;, &#39;name&#39;, &#39;label&#39;, &#39;value&#39;, min, max);
+ *      f.publishForm(&#39;idTag);
+ *
+ * ##Fonction :
+ *
+ *      Crispi.CreateForm.prototype.inputNumber =function (id, name, label, value, min, max) {
+ *          var group = document.createElement(&#39;div&#39;);
+ *          group.id = &#39;form_group_&#39;+id;
+ *          group.className = &#39;c_from_group&#39;;
+ *          if (label){
+ *              var lab = document.createElement(&#39;label&#39;);
+ *              lab.id = &#39;label_&#39;+id;
+ *              lab.htmlFor = id;
+ *              lab.innerHTML = label;
+ *              group.appendChild(lab);
+ *          }
+ *          var input = document.createElement(&#39;input&#39;);
+ *          input.type = &#39;number&#39;;
+ *          input.id = id;
+ *          input.name = name;
+ *          if (value){
+ *              input.value = value;
+ *          }
+ *          if (min){
+ *              input.min = min;
+ *          }
+ *          if (max){
+ *              input.max = max;
+ *          }
+ *
+ *          group.appendChild(input);
+ *          this.form.appendChild(group);
+ *          };
+ *
+ */
+Crispi.CreateForm.prototype.inputNumber = function (id, name, label, value, min, max) {
+    var group = window.document.createElement(&#39;div&#39;);
+    group.id = &#39;form_group_&#39;+id;
+    group.className = &#39;c_from_group&#39;;
+
+    if (label){
+        var lab = document.createElement(&#39;label&#39;);
+        lab.id = &#39;label_&#39;+id;
+        lab.htmlFor = id;
+        lab.innerHTML = label;
+        group.appendChild(lab);
+    }
+    var input = document.createElement(&#39;input&#39;);
+    input.type = &#39;number&#39;;
+    input.id = id;
+    input.name = name;
+    if (value){
+        input.value = value;
+    }
+    if (min){
+        input.min = min;
+    }
+    if (max){
+        input.max = max;
+    }
+
+    group.appendChild(input);
+    this.form.appendChild(group);
+};
+
+
+<span id='CreateForm-method-inputRange'>/**
+</span> * @method inputRange Ajouter un Input de type Range à l&#39;objet CreatForm.
+ * @param {String} id ID à ajouter à l&#39;élément créé.
+ * @param {String} name Nom à ajouter aux élément créé (à l&#39;attribut name de l&#39;input et, si label, au for de l&#39;élément label).
+ * @param {String} label Ignoré si false. Si label, ajout de l&#39;élément label avec inner.html du paramètre envoyé.
+ * @param {Number/String} value Ignoré si false. Si value, ajout de l&#39;attribut value à l&#39;élément input créé avac la valeur de la chaine de carractère envoyé en paramètre, ex : &#39;12:30:05&#39;.
+ * @param {Number/String} min Ignoré si false. Si min, ajout de l&#39;attribut min à l&#39;élément input créé avac la valeur de l&#39;integer envoyé en paramètre, ex : &#39;0&#39;.
+ * @param {Number/String} max Ignoré si false. Si max, ajout de l&#39;attribut max à l&#39;élément input créé avac la valeur de l&#39;integer envoyé en paramètre, ex : &#39;100&#39;.
+ * @param {Number/String} step Ignoré si false. Si step, ajout de l&#39;attribut step à l&#39;élément input créé avac la valeur de l&#39;integer envoyé en paramètre, ex : &#39;1&#39;.
+ *
+ * ATTENTION : Si Min, Max, Value ou Step sont égale à 0, alors, envoyer le carractère 0 (ex : &#39;0&#39;):
+ *
+ * ##Utilisation :
+ *      var f = new Crispi.CreateForm(method, action);
+ *      f.inputRange(&#39;id&#39;, &#39;name&#39;, &#39;label&#39;, &#39;value&#39;, min, max, step);
+ *      f.publishForm(&#39;idTag);
+ *
+ * ##Fonction :
+ *
+ *      Crispi.CreateForm.prototype.inputRange =function (id, name, label, value, min, max, step) {
+ *          var group = document.createElement(&#39;div&#39;);
+ *          group.id = &#39;form_group_&#39;+id;
+ *          group.className = &#39;c_from_group&#39;;
+ *          if (label){
+ *              var lab = document.createElement(&#39;label&#39;);
+ *              lab.id = &#39;label_&#39;+id;
+ *              lab.htmlFor = id;
+ *              lab.innerHTML = label;
+ *              group.appendChild(lab);
+ *          }
+ *          var input = document.createElement(&#39;input&#39;);
+ *          input.type = &#39;range&#39;;
+ *          input.id = id;
+ *          input.name = name;
+ *          if (value){
+ *              input.value = value;
+ *          }
+ *          if (min){
+ *              input.min = min;
+ *          }
+ *          if (max){
+ *              input.max = max;
+ *          }
+ *          if (step){
+ *              input.step = step;
+ *          }
+ *
+ *          group.appendChild(input);
+ *          this.form.appendChild(group);
+ *          };
+ *
+ */
+Crispi.CreateForm.prototype.inputRange = function (id, name, label, value, min, max, step) {
+    var group = window.document.createElement(&#39;div&#39;);
+    group.id = &#39;form_group_&#39;+id;
+    group.className = &#39;c_from_group&#39;;
+
+    if (label){
+        var lab = document.createElement(&#39;label&#39;);
+        lab.id = &#39;label_&#39;+id;
+        lab.htmlFor = id;
+        lab.innerHTML = label;
+        group.appendChild(lab);
+    }
+    var input = document.createElement(&#39;input&#39;);
+    input.type = &#39;range&#39;;
+    input.id = id;
+    input.name = name;
+    if (value){
+        input.value = value;
+    }
+    if (min){
+        input.min = min;
+    }
+    if (max){
+        input.max = max;
+    }
+    if (step){
+        input.step = step;
+    }
+
+    group.appendChild(input);
+    this.form.appendChild(group);
+};
+
+
+<span id='CreateForm-method-inputTextarea'>/**
+</span> * @method inputTextarea Ajouter un Input de type textarea à l&#39;objet CreatForm.
+ * @param {String} id ID à ajouter à l&#39;élément créé.
+ * @param {String} name Nom à ajouter aux élément créé (à l&#39;attribut name de l&#39;input et, si label, au for de l&#39;élément label).
+ * @param {String} label Ignoré si false. Si label, ajout de l&#39;élément label avec inner.html du paramètre envoyé.
+ * @param {String} text Ignoré si false. Si text, ajout du text aver innen.html à l&#39;élément input créé avac la valeur de la chaine de carractère envoyé en paramètre, ex : &#39;Début du text&#39;.
+ * @param {Number/String} rows Ignoré si false. Si rows, ajout de l&#39;attribut rows à l&#39;élément input créé avac la valeur de l&#39;integer envoyé en paramètre, ex : &#39;0&#39;.
+ * @param {Number/String} cols Ignoré si false. Si cols, ajout de l&#39;attribut cols à l&#39;élément input créé avac la valeur de l&#39;integer envoyé en paramètre, ex : &#39;100&#39;.
+ *
+ * ATTENTION : Si Rows ou Cols sont égale à 0, alors, envoyer le carractère 0 (ex : &#39;0&#39;):
+ *
+ * ##Utilisation :
+ *      var f = new Crispi.CreateForm(method, action);
+ *      f.inputTextarea(&#39;id&#39;, &#39;name&#39;, &#39;label&#39;, &#39;text&#39;, rows, cols);
+ *      f.publishForm(&#39;idTag);
+ *
+ * ##Fonction :
+ *
+ *      Crispi.CreateForm.prototype.inputTextarea =function (id, name, label, text, rows, cols) {
+ *          var group = document.createElement(&#39;div&#39;);
+ *          group.id = &#39;form_group_&#39;+id;
+ *          group.className = &#39;c_from_group&#39;;
+ *          if (label){
+ *              var lab = document.createElement(&#39;label&#39;);
+ *              lab.id = &#39;label_&#39;+id;
+ *              lab.htmlFor = id;
+ *              lab.innerHTML = label;
+ *              group.appendChild(lab);
+ *          }
+ *          var input = document.createElement(&#39;textarea&#39;);
+ *          input.id = id;
+ *          input.name = name;
+ *          if (text){
+ *              input.innerHTML = text;
+ *          }
+ *          if (rows){
+ *              input.rows = rows;
+ *          }
+ *          if (cols){
+ *              input.cols = cols;
+ *          }
+ *
+ *          group.appendChild(input);
+ *          this.form.appendChild(group);
+ *          };
+ *
+ */
+Crispi.CreateForm.prototype.inputTextarea = function (id, name, label, text, rows, cols) {
+    var group = window.document.createElement(&#39;div&#39;);
+    group.id = &#39;form_group_&#39;+id;
+    group.className = &#39;c_from_group&#39;;
+
+    if (label){
+        var lab = document.createElement(&#39;label&#39;);
+        lab.id = &#39;label_&#39;+id;
+        lab.htmlFor = id;
+        lab.innerHTML = label;
+        group.appendChild(lab);
+    }
+    var input = document.createElement(&#39;textarea&#39;);
+    input.id = id;
+    input.name = name;
+    if (text){
+        input.innerHTML = text;
+    }
+    if (rows){
+        input.rows = rows;
+    }
+    if (cols){
+        input.cols = cols;
+    }
+
+
+    group.appendChild(input);
+    this.form.appendChild(group);
+};
+
+
+<span id='CreateForm-method-inputRadios'>/**
+</span> * @method inputRadios Ajouter un ensemble d&#39;Input type radio à l&#39;objet CreatForm.
+ * @param {String} id ID à ajouter à l&#39;élément créé.
+ * @param {String} name Nom à ajouter aux éléments créés (à l&#39;attribut name de l&#39;input et, si label, au for de l&#39;élément label).
+ * @param {String} label Ignoré si false. Si label, ajout de l&#39;élément label avec inner.html du paramètre envoyé.
+ * @param {Object} liste Liste des valeur, text et checked de chaque input radio créer.
+ *
+ * ##Utilisation :
+ *
+ *      var f = new Crispi.CreateForm(method, action);
+ *      f.inputRadio(&#39;idRadio&#39;, &#39;MyRadios&#39;, &#39;Faites votre chois :&#39;,
+ *          [{
+ *              &#39;value&#39;: &#39;radio1&#39;,
+ *              &#39;text&#39;: &#39;1er Radio&#39;
+ *          },{
+ *              &#39;value&#39;: &#39;radio2&#39;,
+ *              &#39;text&#39;: &#39;Radio 2&#39;,
+ *              &#39;checked&#39;: true
+ *          }]);
+ *      f.publishForm(&#39;idTag);
+ *
+ * ##Fonction :
+ *
+ *      Crispi.CreateForm.prototype.inputRadios = function (id, name, label, liste) {
+ *          var group = window.document.createElement(&#39;div&#39;);
+ *          var input = [];
+ *          var text = [];
+ *          group.id = &#39;form_group_&#39;+id;
+ *          group.className = &#39;c_from_group&#39;;
+ *          if (label){
+ *              var lab = document.createElement(&#39;label&#39;);
+ *              lab.id = &#39;label_&#39;+id;
+ *              lab.htmlFor = id;
+ *              lab.innerHTML = label;
+ *              group.appendChild(lab);
+ *          }
+ *          for (var i=0; i&lt;liste.length; i++){
+ *          input[i] = document.createElement(&#39;input&#39;);
+ *          input[i].type = &#39;radio&#39;;
+ *          input[i].id = id+i;
+ *          input[i].name = name;
+ *          input[i].value = liste[i].value;
+ *          text[i]=document.createTextNode(liste[i].text);
+ *          if (liste[i].checked){
+ *              input[i].setAttribute(&#39;checked&#39;, &#39;true&#39;);
+ *          }
+ *          group.appendChild(input[i]);
+ *          group.appendChild(text[i]);
+ *          }
+ *          this.form.appendChild(group);
+ *      };
+ *
+ *
+ */
+Crispi.CreateForm.prototype.inputRadios = function (id, name, label, liste) {
+    var group = window.document.createElement(&#39;div&#39;);
+    var input = [];
+    var text = [];
+    group.id = &#39;form_group_&#39;+id;
+    group.className = &#39;c_from_group&#39;;
+    if (label){
+        var lab = document.createElement(&#39;label&#39;);
+        lab.id = &#39;label_&#39;+id;
+        lab.htmlFor = id;
+        lab.innerHTML = label;
+        group.appendChild(lab);
+    }
+    for (var i=0; i&lt;liste.length; i++){
+        input[i] = document.createElement(&#39;input&#39;);
+        input[i].type = &#39;radio&#39;;
+        input[i].id = id+i;
+        input[i].name = name;
+        input[i].value = liste[i].value;
+        text[i]=document.createTextNode(liste[i].text);
+        if (liste[i].checked){
+            input[i].setAttribute(&#39;checked&#39;, &#39;true&#39;);
+        }
+        group.appendChild(input[i]);
+        group.appendChild(text[i]);
+    }
+    this.form.appendChild(group);
+};
+
+
+
+
+
+
+<span id='CreateForm-method-labelUpInput'>/**
+</span> * @method labelUpInput Placer les Label au dessus des Inputs.
+ *
+ * ##Utilisation :
+ *
+ *      var f = new Crispi.CreateForm(method, action);
+ *      f.inputNumber(&#39;id&#39;, &#39;name&#39;, &#39;label&#39;, &#39;value&#39;, min, max);
+ *      f.labelUpInput();
+ *      f.publishForm(&#39;idTag);
+ *
+ * ##Fonction :
+ *
+ *      Crispi.CreateForm.prototype.labelUpInput = function () {
+ *          var br = [];
+ *          var lab = this.form.getElementsByTagName(&#39;label&#39;);
+ *          for (var i=0; i&lt;lab.length;i++) {
+ *          br[i]= document.createElement(&#39;br&#39;);
+ *          lab[i].after(br[i]);
+ *          }
+ *      };
+ *
+ */
+Crispi.CreateForm.prototype.labelUpInput = function () {
+    var br = [];
+    var lab = this.form.getElementsByTagName(&#39;label&#39;);
+    for (var i=0; i&lt;lab.length;i++) {
+        br[i]= document.createElement(&#39;br&#39;);
+        lab[i].after(br[i]);
+    }
+};
+
+//end.</pre>
+</body>
+</html>

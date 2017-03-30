@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Crispi'>/**
+</span> * @class Crispi
+ * @singleton
+ *
+ * @author Gasquez Christoph &lt;christophe@gasquez.fr&gt;
+ *
+ * ##Bibliothèque de fonction en js
+ *
+ * Ensemble des fonctions que je crée au fur et à mesure de mon apprentissage du langage Javascript:
+ *
+ */
+var Crispi = Crispi || {};
+
+
+<span id='Crispi-method-addEvent'>/**
+</span> * @method addEvent Permet de gérer l&#39;ajout d&#39;évennements suivant le navigateur de l&#39;utilisatueur.
+ * @param {String} Element Id de la Div visé pal le add Event.
+ * @param {String} EventName Évennement à ajouter (&#39;load&#39;, &#39;click&#39;, &#39;change&#39;…).
+ * @param {Function} fonction Fonction à appeler à l&#39;évennement.
+ *
+ * ##Utilisation :
+ *
+ * Work in progress!
+ *
+ * ## Fonction :
+ *
+ *      crispi.addEvent = function () {
+ *          if (Element.addEventListener){
+ *          }else if(Element.attachEvent){
+ *              element.attachEvent(EventName,fonction);
+ *          }
+ *      };
+ *
+ */
+Crispi.addEvent = function (Element, EventName, fonction) {
+    if (Element.addEventListener) {
+        Element.addEventListener(EventName, fonction);
+    } else if (Element.attachEvent) {
+        element.attachEvent(EventName, fonction);
+    }
+    return true;
+
+};
+
+
+<span id='Crispi-method-ajaxEvent'>/**
+</span> * @method ajaxEvent Methode de création d&#39;évennement Ajax
+ * @param {String} method Type de la méthode employé (POST, GET, PUT, DELETE).
+ * @param {String} file Fichier appelé par la méthode ajax (ex : ajax/myajax.php).
+ * @param {String} element ID de l&#39;élément ou insérer le resultat de l&#39;appel ajax.
+ * @param {Function/String} success Fonction ou Autre, en cas de xmlHttpRequest.status == 200.
+ * @param {Function/String} error Fonction ou Autre, en cas de xmlHttpRequest.status != 200.
+ * @param {boolean} sync Synchronisation true par défault.
+ *
+ *      Crispi.ajaxEvent(&#39;post&#39;, &#39;ajax.php&#39;, &#39;myDiv&#39;, XMLHttpRequest.reponseText
+ */
+Crispi.ajaxEvent = function (method, file, element, success, error, sync) {
+
+    var xmlHttp = new XMLHttpRequest(); //Création d&#39;objet GMLHttpRequest
+    var is_sync = sync || true;
+    var succes = success || xmlHttp.reponseText;
+    var errorr = error || &#39;Erreur l\&#39;ors du chargement&#39;;
+    xmlHttp.open(method, file, is_sync);
+    xmlHttp.onreadystatechange = function () {
+
+        if (xmlHttp.readyState == 4) {//request finish
+
+            if (xmlHttp.status == 200) {//Statu OK
+                //tout est ok
+                if (succes instanceof Function) {
+                    succes(this);
+                } else {
+                    document.getElementById(element).innerHTML = xmlHttp.responseText;
+                }
+            } else {
+                if (errorr instanceof Function) {
+                    errorr(this);
+                } else {
+                    alert(errorr + xmlHttp.status);
+                }
+            }
+        }
+
+    };
+    xmlHttp.send();
+};
+
+
+<span id='Crispi-method-addForm'>/**
+</span> * @method addForm Creation d&#39;un formulaire dans le tag id envoyé en param.
+ * @param {string} idTag Id de la balise dans la quelle insérer le formulaire.
+ * @param {string} method Methode de validation du formulaire.
+ * @param {string} action Action du formulaire.
+ * @param {string} inputs Objet d&#39;inputs à envoyé à la fonction pour définir les widgets.
+ *
+ *      ObjetInputsAEnvoyer = [{&#39;id&#39;:&#39;number&#39;,
+ *      &#39;label&#39;:&#39;Number&#39;,
+ *      &#39;type&#39;:&#39;number&#39;,
+ *      &#39;min&#39;:&#39;0&#39;,
+ *      &#39;max&#39;:&#39;100&#39;,
+ *      &#39;step&#39;:&#39;10&#39;,
+ *      &#39;value&#39;:&#39;&#39;,
+ *      &#39;value&#39;: [{&#39;value&#39;:&#39;Value1&#39;,&#39;inner&#39;:&#39;inner 1&#39;, &#39;checked&#39;:false},
+ *                {&#39;value&#39;:&#39;Value2&#39;,&#39;inner&#39;:&#39;inner 2&#39;, &#39;checked&#39;:true},
+ *                {&#39;value&#39;:&#39;Value3&#39;,&#39;inner&#39;:&#39;inner 3&#39;}],
+ *       &#39;option&#39;:[{&#39;value&#39;:&#39;Value1&#39;,&#39;inner&#39;:&#39;inner 1&#39;},
+ *                {&#39;value&#39;:&#39;Value2&#39;,&#39;inner&#39;:&#39;inner 2&#39;},
+ *                {&#39;value&#39;:&#39;Value3&#39;,&#39;inner&#39;:&#39;inner 3&#39;},
+ *      &#39;checked&#39;:&#39;&#39;,
+ *      &#39;placeholder&#39;:&#39;&#39;,
+ *      &#39;checked&#39;: &#39;&#39;}];
+ *
+ */
+Crispi.addForm = function (idTag, method, action, inputs) {
+    var tag = document.getElementById(idTag);
+    var form = document.createElement(&#39;form&#39;);
+    form.setAttribute(&#39;method&#39;, method);
+    form.setAttribute(&#39;action&#39;, action);
+    tag.appendChild(form);
+    var submit = document.createElement(&#39;button&#39;);
+    submit.setAttribute(&#39;id&#39;, &#39;submit_&#39; + idTag);
+    submit.setAttribute(&#39;value&#39;, &#39;Valider&#39;);
+    submit.innerHTML = &#39;Valider&#39;;
+
+    for (var i = 0; i &lt; inputs.length; i++) {
+
+        var data = inputs[i];
+        var group = document.createElement(&#39;div&#39;);
+        var mylabel = document.createElement(&#39;label&#39;);
+        var myinput = document.createElement(&#39;input&#39;);
+        var myradio = [];
+        var myoption;
+        var text = [];
+
+        group.setAttribute(&#39;class&#39;, &#39;groupForm&#39;);
+        form.appendChild(group);
+
+        mylabel.setAttribute(&#39;id&#39;, &#39;label_&#39; + data.id);
+        mylabel.setAttribute(&#39;for&#39;, data.id);
+        mylabel.innerHTML = data.label + &#39; :&#39;;
+        group.appendChild(mylabel);
+
+        myinput.setAttribute(&#39;id&#39;, data.id);
+        myinput.setAttribute(&#39;type&#39;, data.type);
+        myinput.setAttribute(&#39;name&#39;, data.id);
+
+        switch (data.type) {
+            case &#39;text&#39;://ok
+            case &#39;email&#39;://ok
+            case &#39;password&#39;://ok
+            case &#39;tel&#39;: //ok
+                if (data.placeholder == &#39;&#39; || data.placeholder == null) {
+                    myinput.setAttribute(&#39;placeholder&#39;, data.label);
+                }
+                else {
+                    myinput.setAttribute(&#39;placeholder&#39;, data.placeholder);
+                }
+                group.appendChild(myinput);
+                break;
+
+            case &#39;color&#39;://ok
+            case &#39;time&#39;://ok
+                group.appendChild(myinput);
+                break;
+
+            case &#39;number&#39;://ok
+                if (data.step != &#39;&#39; || data.step != null) {
+                    myinput.setAttribute(&#39;step&#39;, data.step);
+                }
+                if (data.min != &#39;&#39; || data.min != null) {
+                    myinput.setAttribute(&#39;min&#39;, data.min);
+                }
+                if (data.min != &#39;&#39; || data.min != null) {
+                    myinput.setAttribute(&#39;max&#39;, data.max);
+                }
+                group.appendChild(myinput);
+                break;
+            case &#39;range&#39;://ok
+                myinput.setAttribute(&#39;step&#39;, data.step);
+                myinput.setAttribute(&#39;min&#39;, data.min);
+                myinput.setAttribute(&#39;max&#39;, data.max);
+                group.appendChild(myinput);
+                break;
+
+            case &#39;textarea&#39;://ok
+                myinput = document.createElement(&#39;textarea&#39;);
+                if (data.rows != &#39;&#39; || data.rows != null){
+                myinput.setAttribute(&#39;rows&#39;, data.rows);
+                }
+                if (data.cols != &#39;&#39; || data.cols != null){
+                    myinput.setAttribute(&#39;cols&#39;, data.cols);
+                }
+
+                group.appendChild(myinput);
+                break;
+
+            case &#39;select&#39;:
+                myinput = document.createElement(&#39;select&#39;);
+                for (o=0;o&lt;data.option.length; o++){
+                    myoption = document.createElement(&#39;option&#39;);
+                    myoption.setAttribute(&#39;id&#39;, data.option[o].value);
+                    myoption.setAttribute(&#39;name&#39;, data.id);
+                    myoption.innerHTML = data.option[o].inner;
+
+                    myinput.appendChild(myoption);
+                }
+                group.appendChild(myinput);
+                break;
+
+            case &#39;radio&#39;:
+                for (v=0;v&lt;data.value.length; v++){
+                    myradio[v] = document.createElement(&#39;input&#39;);
+                    myradio[v].setAttribute(&#39;type&#39;, data.type);
+                    myradio[v].setAttribute(&#39;id&#39;, data.value[v].value);
+                    myradio[v].setAttribute(&#39;name&#39;, data.id);
+                    if (data.value[v].checked == true){
+                        myradio[v].setAttribute(&#39;checked&#39;,&#39;true&#39;);
+                    }
+
+                    text[v] = document.createTextNode(data.value[v].inner);
+
+                    group.appendChild(myradio[v]);
+                    group.appendChild(text[v]);
+
+                }
+                // group.appendChild(myvalue);
+                console.log(&#39;test&#39;);
+                break;
+
+
+
+        }
+
+        form.appendChild(submit);
+    }
+
+};
+
+
+//MES TESTS DE FONCTIONS
+//Crispi.addEvent(window, &#39;load&#39;, function () {
+//
+//    Crispi.addForm(&#39;idDiv&#39;, &#39;post&#39;, &#39;#&#39;, [{
+//        &#39;id&#39;: &#39;nom&#39;,
+//        &#39;label&#39;: &#39;Nom&#39;,
+//        &#39;type&#39;: &#39;text&#39;,
+//        &#39;min&#39;: &#39;&#39;,
+//        &#39;max&#39;: &#39;&#39;,
+//        &#39;step&#39;: &#39;&#39;,
+//        &#39;value&#39;: &#39;&#39;,
+//        &#39;checked&#39;: &#39;&#39;,
+//        &#39;placeholder&#39;: &#39;&#39;
+//    },
+//        {
+//            &#39;id&#39;: &#39;prenom&#39;,
+//            &#39;label&#39;: &#39;Prénom&#39;,
+//            &#39;type&#39;: &#39;text&#39;,
+//            &#39;min&#39;: &#39;&#39;,
+//            &#39;max&#39;: &#39;&#39;,
+//            &#39;step&#39;: &#39;&#39;,
+//            &#39;value&#39;: &#39;&#39;,
+//            &#39;checked&#39;: true,
+//            &#39;placeholder&#39;: &#39;&#39;
+//        },
+//        {
+//            &#39;id&#39;: &#39;email&#39;,
+//            &#39;label&#39;: &#39;Email&#39;,
+//            &#39;type&#39;: &#39;email&#39;,
+//            &#39;min&#39;: &#39;&#39;,
+//            &#39;max&#39;: &#39;&#39;,
+//            &#39;step&#39;: &#39;&#39;,
+//            &#39;value&#39;: &#39;&#39;,
+//            &#39;checked&#39;: true,
+//            &#39;placeholder&#39;: &#39;email@domain.fr&#39;
+//        },
+//        {
+//            &#39;id&#39;: &#39;password&#39;,
+//            &#39;label&#39;: &#39;Mot de passe&#39;,
+//            &#39;type&#39;: &#39;password&#39;,
+//            &#39;min&#39;: &#39;&#39;,
+//            &#39;max&#39;: &#39;&#39;,
+//            &#39;step&#39;: &#39;&#39;,
+//            &#39;value&#39;: &#39;&#39;,
+//            &#39;checked&#39;: true,
+//            &#39;placeholder&#39;: &#39;&#39;
+//        },
+//        {
+//            &#39;id&#39;: &#39;color&#39;,
+//            &#39;label&#39;: &#39;Couleur&#39;,
+//            &#39;type&#39;: &#39;color&#39;,
+//            &#39;min&#39;: &#39;&#39;,
+//            &#39;max&#39;: &#39;&#39;,
+//            &#39;step&#39;: &#39;&#39;,
+//            &#39;value&#39;: &#39;&#39;,
+//            &#39;checked&#39;: true,
+//            &#39;placeholder&#39;: &#39;&#39;
+//        },
+//        {
+//            &#39;id&#39;: &#39;tel&#39;,
+//            &#39;label&#39;: &#39;Téléphone&#39;,
+//            &#39;type&#39;: &#39;tel&#39;,
+//            &#39;min&#39;: &#39;&#39;,
+//            &#39;max&#39;: &#39;&#39;,
+//            &#39;step&#39;: &#39;&#39;,
+//            &#39;value&#39;: &#39;&#39;,
+//            &#39;checked&#39;: true,
+//            &#39;placeholder&#39;: &#39;&#39;
+//        },
+//        {
+//            &#39;id&#39;: &#39;time&#39;,
+//            &#39;label&#39;: &#39;Heure&#39;,
+//            &#39;type&#39;: &#39;time&#39;,
+//            &#39;min&#39;: &#39;&#39;,
+//            &#39;max&#39;: &#39;&#39;,
+//            &#39;step&#39;: &#39;&#39;,
+//            &#39;value&#39;: &#39;&#39;,
+//            &#39;checked&#39;: &#39;&#39;,
+//            &#39;placeholder&#39;: &#39;&#39;
+//        },
+//        {
+//            &#39;id&#39;: &#39;range&#39;,
+//            &#39;label&#39;: &#39;Range&#39;,
+//            &#39;type&#39;: &#39;range&#39;,
+//            &#39;min&#39;: &#39;0&#39;,
+//            &#39;max&#39;: &#39;100&#39;,
+//            &#39;step&#39;: &#39;1&#39;,
+//            &#39;value&#39;: &#39;&#39;,
+//            &#39;checked&#39;: &#39;&#39;,
+//            &#39;placeholder&#39;: &#39;&#39;
+//        },
+//        {
+//            &#39;id&#39;: &#39;number&#39;,
+//            &#39;label&#39;: &#39;Number&#39;,
+//            &#39;type&#39;: &#39;number&#39;,
+//            &#39;min&#39;: &#39;0&#39;,
+//            &#39;max&#39;: &#39;100&#39;,
+//            &#39;step&#39;: &#39;10&#39;,
+//            &#39;value&#39;: &#39;&#39;,
+//            &#39;checked&#39;: &#39;&#39;,
+//            &#39;placeholder&#39;: &#39;&#39;
+//        },
+//        {
+//            &#39;id&#39;: &#39;select&#39;,
+//            &#39;label&#39;: &#39;Select&#39;,
+//            &#39;type&#39;: &#39;select&#39;,
+//            &#39;min&#39;: &#39;0&#39;,
+//            &#39;max&#39;: &#39;100&#39;,
+//            &#39;step&#39;: &#39;10&#39;,
+//            &#39;value&#39;: &#39;&#39;,
+//            &#39;checked&#39;: &#39;&#39;,
+//            &#39;placeholder&#39;: &#39;&#39;,
+//            &#39;option&#39;:[{&#39;value&#39;:&#39;Value1&#39;,&#39;inner&#39;:&#39;inner 1&#39;},
+//                {&#39;value&#39;:&#39;Value2&#39;,&#39;inner&#39;:&#39;inner 2&#39;},
+//                {&#39;value&#39;:&#39;Value3&#39;,&#39;inner&#39;:&#39;inner 3&#39;}]
+//        },
+//        {
+//            &#39;id&#39;: &#39;textarea&#39;,
+//            &#39;label&#39;: &#39;Textarea&#39;,
+//            &#39;type&#39;: &#39;textarea&#39;,
+//            &#39;rows&#39;: &#39;5&#39;,
+//            &#39;cols&#39;: &#39;&#39;,
+//            &#39;step&#39;: &#39;&#39;,
+//            &#39;value&#39;: &#39;Exemple textarea&#39;,
+//            &#39;checked&#39;: &#39;&#39;,
+//            &#39;placeholder&#39;: &#39;&#39;
+//        },
+//        //{
+//            &#39;id&#39;: &#39;radio&#39;,
+//            &#39;label&#39;: &#39;Radio&#39;,
+//            &#39;type&#39;: &#39;radio&#39;,
+//            &#39;value&#39;: [{&#39;value&#39;:&#39;Value1&#39;,&#39;inner&#39;:&#39;inner 1&#39;, &#39;checked&#39;:false},
+//                {&#39;value&#39;:&#39;Value2&#39;,&#39;inner&#39;:&#39;inner 2&#39;, &#39;checked&#39;:true},
+//                {&#39;value&#39;:&#39;Value3&#39;,&#39;inner&#39;:&#39;inner 3&#39;}]
+//        }
+//        ]);
+//
+//});
+//Pour mettre à jour la documentation : $ jsduck Sites/firstjavascript/CrispiLibJS/ --builtin-classes --output Sites/firstjavascript/CrispiLibJS/Docs</pre>
+</body>
+</html>

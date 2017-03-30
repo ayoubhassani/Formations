@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="57">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../CrispiLibJS/Crispi.js"></script>
+    <script>
+
+//Script de fonction Ajax, voir CrispiLib
+//        function changeText() {
+//            var xmlHttp = new XMLHttpRequest(); //Création d'objet GMLHttpRequest
+//            if (xmlHttp.readyState==0){
+//                console.log('0 State :'+xmlHttp.readyState);
+//                console.log('0 Response :'+xmlHttp.responseXML);
+//                console.log('0 Status :'+xmlHttp.status);
+//            }
+//            xmlHttp.open('GET','ajax.php', true);
+//            if (xmlHttp.readyState==1){
+//                console.log('1 State :'+xmlHttp.readyState);
+//                console.log('1 Response :'+xmlHttp.responseXML);
+//                console.log('1 Status :'+xmlHttp.status);
+//
+//            }
+//            xmlHttp.onreadystatechange = function () {
+//
+//                if (xmlHttp.readyState==2){
+//                    console.log('2 State :'+xmlHttp.readyState);
+//                    console.log('2 Response :'+xmlHttp.responseXML);
+//                    console.log('2 Status :'+xmlHttp.status);
+//
+//                }
+//                if (xmlHttp.readyState==3){
+//                    console.log('3 State :'+xmlHttp.readyState);
+//                    console.log('3 Response :'+xmlHttp.responseXML);
+//                    console.log('3 Status :'+xmlHttp.status);
+//
+//                }
+//                if(xmlHttp.readyState ==4){//request finish
+//                    console.log('4 State :'+xmlHttp.readyState);
+//                    console.log('4 Response :'+xmlHttp.responseXML);
+//                    console.log('4 Status :'+xmlHttp.status);
+//                    if (xmlHttp.status==200){//Statu OK
+//                        //tout est ok
+//                        document.getElementById('myDiv').innerHTML = xmlHttp.responseText;
+//                    }else{
+//                        alert('Ajax Error code '+xmlHttp.status);
+//                    }
+//                }
+//            };
+//            xmlHttp.send();
+//        }
+
+        Crispi.addEvent(window, 'load', function () {
+           Crispi.ajaxEvent('get','ajax.php','myDiv',function () {
+               var json = eval('['+arguments[0].responseText+']');
+               json = json[0];
+
+               var keys = Object.keys(json);
+
+               var select = document.createElement('select');
+               select.id = 'firstSelect';
+               var option=[];
+
+               for (var l =0 ; l<keys.length; l++){
+                    option[l] = document.createElement('option');
+                    option[l].text =json[keys[l]];
+                    select.appendChild(option[l]);
+               }
+               document.body.appendChild(select);
+
+
+
+               var divSelect = document.querySelector('select');
+
+               Crispi.addEvent(divSelect, 'change', ajaxRefrech = function () {
+
+                   Crispi.ajaxEvent('get','ajax.php?company='+divSelect.value,'myDiv',function () {
+
+                       var exSelct = document.getElementById('secondSelect');
+                       if (exSelct!= undefined){
+                           exSelct.remove();
+                       }
+
+                       var json = eval('['+arguments[0].responseText+']');
+                       json = json[0];
+
+                       var keys = Object.keys(json);
+
+                       var select = document.createElement('select');
+                       select.id = 'secondSelect';
+                       var option=[];
+
+                       for (var l =0 ; l<keys.length; l++){
+                           option[l] = document.createElement('option');
+                           option[l].text =json[keys[l]];
+                           select.appendChild(option[l]);
+                       }
+                       document.body.appendChild(select);
+
+                   })
+
+               });
+
+               ajaxRefrech();
+
+           });
+        });
+
+    </script>
+</head>
+<body>
+
+<button type="button" id="MyButton" onclick="Crispi.ajaxEvent('get','ajax.php','myDiv');">Requeste Ajax</button>
+
+<div id="myDiv"></div>
+<div id="idDiv"></div>
+</body>
+</html>

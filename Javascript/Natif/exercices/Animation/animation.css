@@ -1,0 +1,104 @@
+/*Style de base, avant l'évennement*/
+body{
+    min-width: 500px;
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+    background-color: #dbfff8;
+    padding-top: 10px;
+}
+h1{
+    font-size: 3em;
+    font-family: 'Helvetica Neue', sans-serif;
+    color: #a9006a;
+}
+button{
+    margin: 20px 0 ;
+    width: 100%;
+    max-width: 300px;
+    font-size: 1.5em;
+    border-radius: 10px;
+    background-color: #c0ff00;
+    color: #5d5d5d;
+    border:2px solid #ffd7fe;
+}
+div{
+    width: 100px;
+    height: 100px;
+    margin: 10px auto;
+
+}
+/*Styles de base avant évennement sur les div 1, 2 et 3*/
+div#div1{
+    background-color: #b0ffaf;
+}
+div#div2{
+    width: 200px;
+    height: 200px;
+    background-image: url("../Gallerie/img/img2.jpg");
+    background-size: 200px 200px;
+    background-repeat: no-repeat;
+}
+div#div3{
+    background-color: #aac9ff;
+}
+/*On crée des classes qui appels les keyframes,
+détermine les temps d'annimation,
+ou transforme les éléments
+*/
+.bodybg{
+    transition-duration: 2s;
+    background-color: aquamarine;
+}
+.h1c{
+    color: #FFFFFF;
+    transition-duration: 2.5s;
+    animation-name: zigzag;
+    animation-duration: 5s;
+}
+.rotation{
+    animation-name: rotate;
+    animation-duration: 3s;
+}
+.boule{
+    animation-name: boule;
+    animation-duration: 5s;
+}
+.bazar{
+    animation-name: bazar;
+    animation-duration: 5s;
+}
+/*On crée les keyframes appelés par les classes plus haut.*/
+@keyframes rotate {
+    0%      { transform: rotate(180deg)     }
+    33%     { transform: rotate(360deg);
+              background-color: #0dff0e      }
+    66%     { transform: translateX(200px)  }
+    100%    { transform: translateX(0px)    }
+}
+@keyframes boule {
+    10%     { transform: rotate(20deg)                              }
+    50%     { transform: translateX(-200px) rotateX(90deg);
+              background-image: url("../Gallerie/img/img1.jpeg")    }
+    100%    { transform: translateX(0px);
+              background-image: url("../Gallerie/img/img3.jpg");    }
+}
+@keyframes bazar {
+    0%      { transform: rotate(180deg)   }
+    33%     { background-color: #005a63   }
+    66%     { transform: translateX(200px)}
+    100%    { transform: translateX(0px);
+              background-color: inherit   }
+}
+@keyframes zigzag {
+    10%{    transform: rotate(5deg)     }
+    20%{    transform: rotate(-5deg)    }
+    30%{    transform: rotate(5deg)     }
+    40%{    transform: rotate(-5deg)    }
+    50%{    transform: rotate(5deg)     }
+    60%{    transform: rotate(-5deg)    }
+    70%{    transform: rotate(5deg)     }
+    80%{    transform: rotate(-5deg)    }
+    90%{    transform: rotate(5deg)     }
+    100%{   transform: rotate(-5deg)    }
+}

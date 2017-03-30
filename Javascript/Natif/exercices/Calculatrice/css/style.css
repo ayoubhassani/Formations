@@ -1,0 +1,64 @@
+@font-face {
+	font-family: 'Lcd Expanded';
+	src: url('../fonts/Lcd-Expanded.eot');
+	src: url('../fonts/Lcd-Expanded.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/Lcd-Expanded.woff2') format('woff2'),
+		url('../fonts/Lcd-Expanded.woff') format('woff'),
+		url('../fonts/Lcd-Expanded.ttf') format('truetype'),
+		url('../fonts/Lcd-Expanded.svg#Lcd-Expanded') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body{
+	background-color: brown;
+}
+
+
+#calculatrice{
+	border:1px solid #CCCCCC;
+	border-radius: 10px;
+	padding:10px;
+	width:300px;
+	text-align: center;
+	background: linear-gradient(brown,black);
+}
+
+#ecran{
+	background-color: #000000;
+	border-radius: 5px;
+	min-height:50px;
+	margin-bottom:10px;
+	color:white;
+	font-family: 'Lcd Expanded';
+	font-size:20px;
+	padding: 5px;
+    text-align: right;
+    overflow-wrap: break-word;
+}
+
+button{
+	padding:10px;
+	display: inline-block;
+	width:40px;
+	height: 40px;
+	margin-bottom: 5px;
+	background: linear-gradient(#576880,white);
+	border-radius: 5px;
+}
+
+#boutons div{
+	float: left;
+	border-left: dashed 2px #515151;
+	padding-left: 6px;
+	margin-right: 10px;
+}
+
+.clearfix:after{
+	content: '.';
+	display: block;
+	clear: both;
+	width: 0;
+	height: 0;
+	visibility: hidden;
+}
